@@ -148,7 +148,7 @@ async function loadImage(src) {
     img.src = src;
     await img.decode();
     const ret = { image: img };
-    if (img.createImageBitmap) {
+    if (self.createImageBitmap) {
         try {
             ret.bitmap = await createImageBitmap(img, {
                 premultiplyAlpha: "none",
