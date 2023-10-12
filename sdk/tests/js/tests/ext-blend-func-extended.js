@@ -475,6 +475,14 @@ function runDrawBuffersLimitTests() {
             wtu.drawUnitQuad(gl);
             wtu.glErrorShouldBe(gl, gl.INVALID_OPERATION, "blending enabled");
 
+            // Limit must be applied even when an attachment is missing
+            gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT1, gl.RENDERBUFFER, null);
+            wtu.drawUnitQuad(gl);
+            wtu.glErrorShouldBe(gl, gl.INVALID_OPERATION, "blending enabled with missing attachment");
+
+            // Restore the attachment for the next iteration
+            gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT1, gl.RENDERBUFFER, rb1);
+
             // Limit is not applied when non-SRC1 funcs are used
             gl.blendFunc(gl.ONE, gl.ONE);
             wtu.drawUnitQuad(gl);
